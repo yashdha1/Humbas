@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"; 
 
 const axiosInstance = axios.create({
     // deployment will be diffrent : 
@@ -6,4 +6,4 @@ const axiosInstance = axios.create({
     withCredentials : true, // cookies will be send for everything 
 });
 
-export default axiosInstance ; 
+export default axiosInstance ;

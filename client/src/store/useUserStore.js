@@ -9,14 +9,15 @@ export const useUserStore = create((set, get) => ({
     checkingAuth: true,
     loading: false, 
 
-    signup : async ({username, email , password, confirmPassword }) => {
+    signup : async ({username, email , password, confirmPassword , address, phoneNumber}) => {
         set({loading: true}); // start thy loading.... 
         if(password !== confirmPassword){
             set({loading: false}); // stop the Loading and return the error:  
             return toast.error("Passwords do not match");
         }
         try {
-            const res = await axios.post("/auth/signup", {username, email, password}); 
+            console.log("axios connection string : "+axios);
+            const res = await axios.post("auth/register", {username, email, password, address, phoneNumber});
             set({user: res.data.user , loading: false});
             console.log(res);
             toast.success("Signed Up Successfully");
@@ -57,7 +58,7 @@ export const useUserStore = create((set, get) => ({
         } catch (error) {
             toast.error(error.response.data.error || "Error Occured Durinng LOGOUT.")
         }
-    }, 
+    },
 }));
 
 // TODO : Implement the axios Interceptors to refresh the Access Tokens:  15mins 

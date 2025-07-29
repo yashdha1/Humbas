@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import CreateProductForm from "../components/CreateProductForm";
 import ProductsList from "../components/ProductsList";
 import AdminOrders from "../components/AdminOrders"; 
+import UsersTab from "../components/UsersTab";
+
+import { useProductStore } from "../store/useProductStore"; 
  
 
 
@@ -17,11 +20,11 @@ const tabs = [
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("create");
-  // const { fetchAllProducts } = useProductStore();
+  const { fetchAllProducts } = useProductStore();
 
-  // useEffect(() => {
-  //   fetchAllProducts();
-  // }, [fetchAllProducts]);
+  useEffect(() => {
+    fetchAllProducts();
+  }, [fetchAllProducts]);
 
   return (
     <div className="min-h-screen relative overflow-hidden">

@@ -1,20 +1,28 @@
 import { useState } from "react";
 import { PlusCircle, Upload, Loader } from "lucide-react";
+import { useProductStore } from "../store/useProductStore"; 
 
 const categories = [
-  "Dairy",
-  "Fruits",
-  "Vegetables",
-  "Others"
+  "dairy",
+  "fruits",
+  "vegetables",
+  "others"
+];
+const metrics = [
+  "weight",
+  "volume",
+  "count"
 ];
 
 const CreateProductForm = () => {
+  const { createProduct } = useProductStore();
   const [newProduct, setNewProduct] = useState({
     name: "",
     description: "",
     price: "",
     category: "",
     image: "",
+    metric: ""
   });
 
   const loading = false; // dummy loading, replace with store hook
@@ -22,14 +30,18 @@ const CreateProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // await createProduct(newProduct); // connect to store
+      console.log("Creating product with data:", newProduct);
+      await createProduct(newProduct); // connect
+      //  to store
       console.log("Submitted:", newProduct);
+      // reset 
       setNewProduct({
         name: "",
         description: "",
         price: "",
         category: "",
         image: "",
+        metric: ""
       });
     } catch {
       console.log("Error creating product");
@@ -132,6 +144,31 @@ const CreateProductForm = () => {
             {categories.map((category) => (
               <option key={category} value={category}>
                 {category}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label
+            htmlFor="metric"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Metric
+          </label>
+          <select
+            id="metric"
+            value={newProduct.metric}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, metric: e.target.value })
+            }
+            className="mt-1 block w-full bg-white border border-gray-300 rounded-md py-2 px-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+            required
+          >
+            <option value="">Select a Metric of the Product</option>
+            {metrics.map((metric) => (
+              <option key={metric} value={metric}>
+                {metric}
               </option>
             ))}
           </select>

@@ -3,8 +3,8 @@ import Item from "../components/Item.jsx";
 import { useParams } from "react-router-dom";
 
 const ItemsPage = () => {
-  const { Name } = useParams();
-  console.log("category:", Name);
+  const { Name } = useParams() ; 
+  console.log("category:", Name, useParams() );
   const products = [
     {
       _id: 1,
@@ -56,7 +56,7 @@ const ItemsPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          Products
+          Products in {Name}
         </motion.h1>
         <motion.p
           className="text-center text-lg text-gray-500 mb-12"
@@ -67,7 +67,7 @@ const ItemsPage = () => {
           All the Shown Images are Authentic
         </motion.p>
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-2 justify-items-center"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-3 gap-2 justify-items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}

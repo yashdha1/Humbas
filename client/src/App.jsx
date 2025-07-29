@@ -10,11 +10,11 @@ import Profile from "./pages/Profile.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import Subscription from "./pages/Subscription.jsx"; 
 import SubscriptionFloater from "./components/SubscriptionFloater.jsx";
-// import { useUserStore } from "./store/useUserStore.jsx";
+
+import { useUserStore } from "./store/useUserStore.js";
 
 function App() {
-  // const { user } = useUserStore();
-  const user = true;
+  const { user, checkAuth, logout } = useUserStore();
 
   return (
     <div>
@@ -29,11 +29,17 @@ function App() {
             path="/login"
             element={!user ? <Login /> : <Navigate to="/login" />}
           /> */}
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
+           <Route
+            path="/signup"
+            element={!user ? <Signup /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/login"
+            element={!user ? <Login /> : <Navigate to="/" />}
+          />
           <Route path="/items/:id" element={<ItemsPage />} />
-          <Route path="/profile" element={<Profile/>} />
-          <Route path="/dashboard" element={<AdminPage />} />
+          <Route path="/profile" element={user && user.role === "user" ? <Profile /> : <Navigate to="/" />} />
+          <Route path="/dashboard" element={user && user.role === "admin" ? <AdminPage /> : <Navigate to="/" />} />
           <Route path="/subscriptions" element={<Subscription />} />
           <Route path="/subscriptions/:name" element={<SubscriptionFloater/>} />
 

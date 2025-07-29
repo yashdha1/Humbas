@@ -1,57 +1,46 @@
+import { useState } from "react";
 import { Trash } from "lucide-react";
 import {
   Box,
   Button,
-  Heading,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
-
 import { ChevronDownIcon } from "@chakra-ui/icons";
-// import { useProductStore } from "../stores/useProductStore";
-
-const updateStatus = (newStatus) => {
-  setOrder((prevOrder) => ({
-    ...prevOrder,
-    status: newStatus,
-  }));
-};
+import { useProductStore } from "../store/useProductStore";
 
 const ProductsList = () => {
-  // const { deleteProduct,  products } = useProductStore();
-  const products = [
-    {
-      _id: 1,
-      name: "Organic Paneer",
-      image: "https://example.com/paneer.jpg",
-      price: 5.99,
-      category: "dairy",
-    },
-  ];
+  const { deleteProduct, products } = useProductStore();
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleCategoryFilter = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const filteredProducts = selectedCategory
+    ? products.filter((product) => product.category === selectedCategory)
+    : products;
+
   return (
-    <div className="flex flex-col ">
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={4}
-      > 
-        <Menu className="border-b-2 border-gray-700">
+    <div className="flex flex-col">
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+        <Menu>
           <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
             Filter Category
           </MenuButton>
           <MenuList>
-            <MenuItem onClick={() => updateStatus("Dairy")}>Dairy</MenuItem>
-            <MenuItem onClick={() => updateStatus("Fruits")}>Fruits</MenuItem>
-            <MenuItem onClick={() => updateStatus("Vegetables")}>Vegetables</MenuItem>
-            <MenuItem onClick={() => updateStatus("Others")}>Others</MenuItem>
+            <MenuItem onClick={() => handleCategoryFilter("dairy")}>Dairy</MenuItem>
+            <MenuItem onClick={() => handleCategoryFilter("fruits")}>Fruits</MenuItem>
+            <MenuItem onClick={() => handleCategoryFilter("vegetables")}>Vegetables</MenuItem>
+            <MenuItem onClick={() => handleCategoryFilter("others")}>Others</MenuItem>
+            <MenuItem onClick={() => handleCategoryFilter(null)}>All</MenuItem>
           </MenuList>
         </Menu>
       </Box>
 
-      <table className=" min-w-full divide-y divide-gray-700">
+      <table className="min-w-full divide-y divide-gray-700">
         <thead className="bg-gray-700">
           <tr>
             <th
@@ -76,7 +65,7 @@ const ProductsList = () => {
         </thead>
 
         <tbody className="bg-gray-800 divide-y divide-gray-700">
-          {products?.map((product) => (
+          {filteredProducts?.map((product) => (
             <tr key={product._id} className="hover:bg-gray-700">
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center">
@@ -89,12 +78,13 @@ const ProductsList = () => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-gray-300">
-                  RS {product.price.toFixed(2)}
+                  RS {product.price}
                 </div>
               </td>
 
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <button
+                  // Uncomment this when deleteProduct is ready
                   // onClick={() => deleteProduct(product._id)}
                   className="text-red-400 hover:text-red-300"
                 >
@@ -108,4 +98,5 @@ const ProductsList = () => {
     </div>
   );
 };
+
 export default ProductsList;

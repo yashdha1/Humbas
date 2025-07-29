@@ -1,4 +1,3 @@
-import express from "express";
 import User from "../model/user.model.js";
 import jwt from "jsonwebtoken";
 import { redis } from "../lib/redis.js";
@@ -14,7 +13,7 @@ export const signup = async (req, res) => {
     if (userExists) {
       return res.status(400).send("User already exists!");
     }
-    // create a new User in the DB.
+    // create a new User in the DB.w
 
     // OTP VERIFICATION OF THE USER:-> 
     const OTP = Math.floor(1000 + Math.random() * 9000); // generate OTP :

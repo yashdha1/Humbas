@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRightToLine } from "lucide-react";
 
 export default function Homepage() {
+  
   const products = [
     {
       _id: 1,
