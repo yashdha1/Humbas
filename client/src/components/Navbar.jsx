@@ -10,7 +10,7 @@ export default function Navbar() {
 
   return (
     <div className="absolute top-0 left-0 w-full z-30 bg-green-700 text-white px-6 py-4 flex justify-between items-center shadow-md">
-      <div className="text-3xl font-bold">🌿 FreshFarm</div>
+      <div className="text-3xl font-bold cursor-pointer" onClick={() => navigate("/")}>Humbas</div>
 
       <div className="space-x-4 text-sm font-medium flex items-center">
         {!isLoggedIn && (

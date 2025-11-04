@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    // user associated with the ORDER : 
     userId: {
       type: String,
       required: true,

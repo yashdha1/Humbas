@@ -5,30 +5,26 @@ import {
   Heading,
   Stack,
   Card,
-  CardBody, 
-  VStack, 
+  CardBody,
+  VStack,
   useColorModeValue,
   Tabs,
   TabList,
   TabPanels,
   Tab,
-  TabPanel
-} from "@chakra-ui/react"; 
+  TabPanel,
+} from "@chakra-ui/react";
 
 import Cart from "../components/Cart";
 import Orders from "../components/UserOrders";
+import { useUserStore } from "../store/useUserStore";
+import { useEffect } from "react";
+
+import { useCartStore } from "../store/useCartStore";
 
 const Profile = () => {
-  const user = {
-    name: "John Doe",
-    email: "I0S4o@example.com",
-    phone: "123-456-7890",
-    address: "123 Main St, City, Country",
-    orders: [
-      { id: 1, item: "Organic Paneer", quantity: 2, total: 300 },
-      { id: 2, item: "Fresh Milk", quantity: 1, total: 50 },
-    ],
-  };
+  const { user } = useUserStore(); 
+ 
 
   const cardBg = useColorModeValue("white", "gray.800");
   const cardShadow = useColorModeValue("md", "dark-lg");
@@ -36,7 +32,13 @@ const Profile = () => {
   return (
     <Box maxW="6xl" mx="auto" px={{ base: 4, md: 8 }} py={6}>
       {/* Profile Info Card */}
-      <Card bg={cardBg} shadow={cardShadow} borderRadius="2xl" overflow="hidden" mb={8}>
+      <Card
+        bg={cardBg}
+        shadow={cardShadow}
+        borderRadius="2xl"
+        overflow="hidden"
+        mb={8}
+      >
         <CardBody>
           <Stack
             direction={{ base: "column", md: "row" }}
@@ -46,13 +48,24 @@ const Profile = () => {
           >
             <VStack align="start" spacing={2}>
               <Heading size="lg">Welcome, {user.name}</Heading>
-              <Text><b>Email:</b> {user.email}</Text>
-              <Text><b>Phone:</b> {user.phone}</Text>
-              <Text><b>Address:</b> {user.address}</Text>
-              <Text><b>Total Orders:</b> {user.orders.length}</Text>
+              <Text>
+                <b>Email:</b> {user.email}
+              </Text>
+              <Text>
+                <b>Phone:</b> {user.phoneNumber}
+              </Text>
+              <Text>
+                <b>Address:</b> {user.address}
+              </Text>
+              <Text>
+                <b>Total Orders:</b> {user.orders.length}
+              </Text>
             </VStack>
 
-            <Button colorScheme="blue"   alignSelf={{ base: "stretch", md: "flex-end" }}>
+            <Button
+              colorScheme="blue"
+              alignSelf={{ base: "stretch", md: "flex-end" }}
+            >
               Edit Profile
             </Button>
           </Stack>
@@ -60,7 +73,13 @@ const Profile = () => {
       </Card>
 
       <Tabs isFitted variant="enclosed-colored" colorScheme="teal">
-        <TabList mb="4" borderRadius="xl" overflow="hidden" border="1px solid" borderColor="gray.200">
+        <TabList
+          mb="4"
+          borderRadius="xl"
+          overflow="hidden"
+          border="1px solid"
+          borderColor="gray.200"
+        >
           <Tab fontWeight="semibold">Cart</Tab>
           <Tab fontWeight="semibold">Orders</Tab>
         </TabList>
@@ -68,14 +87,14 @@ const Profile = () => {
         <TabPanels>
           <TabPanel>
             <Text fontSize="md" color="gray.500">
-              <Cart /> 
+              <Cart cartItems={user} />
               {/* Cart component will display products and their quantities */}
-              {/* Sales, discounts, and place order section will be handled here */}  
+              {/* Sales, discounts, and place order section will be handled here */}
             </Text>
           </TabPanel>
           <TabPanel>
             <Text fontSize="md" color="gray.500">
-              <Orders /> 
+              <Orders />
               {/* Orders component will display user's past orders */}
             </Text>
           </TabPanel>

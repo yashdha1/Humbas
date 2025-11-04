@@ -13,7 +13,7 @@ const router = express.Router();
 router.get("/" , protectedRoute , getAllProducts); // for the admin 
 router.post("/", protectedRoute, addToCart);    // for the user
 router.delete("/", protectedRoute, removeAllFromCart);
-router.put("/:id", protectedRoute, updateQuantity);
+router.put("/", protectedRoute, updateQuantity);
 
 // delete everything in the cart and create an ORDER:-> 
 router.post("/createOrder", protectedRoute, createOrder); 

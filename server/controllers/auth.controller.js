@@ -137,6 +137,25 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
+// to update the profile of the User:-> 
+export const updateProfile = async (req, res) => {
+  try {
+    const { username, email, address, phoneNumber } = req.body;
+    if (!username || !email || !address || !phoneNumber)
+      return res.status(400).send("All fields are required.");
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { username, email, address, phoneNumber },
+      { new: true }
+    );
+
+    res.json({ user: updatedUser, message: "Profile updated successfully" });
+  } catch (error) {
+    console.log("Error in updateProfile CONTROLLER");
+    res.status(500).json({ error: error.message });
+  }
+};
 
 // Helpers :-> 
 const generateTokens = (userId) => {

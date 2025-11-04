@@ -39,7 +39,7 @@ export default function Homepage() {
       {/* HEADER */}
       <header className="relative h-screen overflow-hidden bg-white">
         {/* Navbar */}
-        <Navbar />
+        {/* <Navbar /> */}
 
         {/* Right Background Image */}
         <div className="absolute top-0 right-0 w-2/3 h-full z-10 hidden md:block">
@@ -170,7 +170,7 @@ export default function Homepage() {
       </main>
 
       {/* FOOTER */}
-      <footer className="bg-green-700 text-white py-10 mt-16">
+      <footer className="bg-green-700 text-white py-10 mt-16 ">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 px-6">
           <div>
             <h5 className="text-xl font-semibold mb-4">Quick Links</h5>
@@ -185,7 +185,7 @@ export default function Homepage() {
             <h5 className="text-xl font-semibold mb-4">Contact Info</h5>
             <ul className="space-y-2 text-sm">
               <li>📍 Amravati, Maharashtra</li>
-              <li className="hover:underline">contact@freshfarm.com</li>
+              <li className="hover:underline">bhushan@humbas.com</li>
               <li className="hover:underline">+91 98765 43210</li>
             </ul>
           </div>

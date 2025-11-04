@@ -10,8 +10,8 @@ import { adminRoute, protectedRoute } from "../middleware/auth.middleware.js";
 const router = express.Router();
 
 // order create is in the cart route-> 
-router.get("/" , protectedRoute , adminRoute, getAllOrders);  
-router.put("/", protectedRoute, updateOrderStatus); // Cancel should be multiwayed and success shoul be admin only 
+router.get("/" , protectedRoute , adminRoute, getAllOrders);
+router.put("/", protectedRoute, updateOrderStatus); // Cancel should be multiwayed and success shoul be admin only
 router.get("/status", protectedRoute, getOrdersByStatus);
 // router.put("/:id", protectedRoute, updateQuantity);
 

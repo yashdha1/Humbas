@@ -13,6 +13,8 @@ import {
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 
 export const CardHorizontal = ({ data, quantity, onIncrement, onDecrement }) => {
+  console.log("CardHorizontal data:", data);
+  console.log("CardHorizontal quantity:", quantity);
   return (
     <Card
       direction="row"
@@ -20,20 +22,23 @@ export const CardHorizontal = ({ data, quantity, onIncrement, onDecrement }) => 
       maxW="full"
       variant="outline"
       m="2"
+      borderWidth="1px"
+      borderColor="gray.200"
+      borderRadius="md"
     >
       <Image
         objectFit="cover"
-        maxW="120px"
-        src={data.Product.image}
-        alt={data.Product.name}
+        maxW="200px"
+        src={data.image}
+        alt={data.name}
       />
       <Box flex="1">
         <CardBody>
-          <Heading size="sm">{data.Product.name}</Heading>
-          <Text fontSize="sm">₹{data.Product.price}</Text>
-          <Text fontSize="xs">Metric: {data.Product.metric}</Text>
+          <Heading size="sm">{data.name}</Heading>
+          <Text fontSize="sm">₹{data.price}</Text>
+          <Text fontSize="xs">Metric: {data.metric}</Text>
           <HStack mt="2">
-            <Badge colorScheme="green">{data.Product.category}</Badge>
+            <Badge colorScheme="green">{data.category}</Badge>
           </HStack>
         </CardBody>
         <CardFooter justify="space-between" alignItems="center">

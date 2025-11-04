@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
 import Homepage from "./pages/Homepage.jsx";
+import Navbar from "./components/Navbar.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import ItemsPage from "./pages/ItemsPage.jsx";
@@ -18,31 +19,17 @@ function App() {
 
   return (
     <div>
-      <div className="">
+      <Navbar />
+      <div style={{ paddingTop: "64px" }}> {/* Adjust based on your Navbar height */}
         <Routes>
           <Route path="/" element={<Homepage />} />
-          {/* <Route
-            path="/signup"
-            element={!user ? <Signup /> : <Navigate to="/signup" />}
-          />
-          <Route
-            path="/login"
-            element={!user ? <Login /> : <Navigate to="/login" />}
-          /> */}
-           <Route
-            path="/signup"
-            element={!user ? <Signup /> : <Navigate to="/" />}
-          />
-          <Route
-            path="/login"
-            element={!user ? <Login /> : <Navigate to="/" />}
-          />
+          <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" />} />
+          <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
           <Route path="/items/:id" element={<ItemsPage />} />
           <Route path="/profile" element={user && user.role === "user" ? <Profile /> : <Navigate to="/" />} />
           <Route path="/dashboard" element={user && user.role === "admin" ? <AdminPage /> : <Navigate to="/" />} />
           <Route path="/subscriptions" element={<Subscription />} />
-          <Route path="/subscriptions/:name" element={<SubscriptionFloater/>} />
-
+          <Route path="/subscriptions/:name" element={<SubscriptionFloater />} />
         </Routes>
       </div>
       <Toaster />

@@ -1,27 +1,19 @@
 import { motion } from "framer-motion";
 import ItemSubscribe from "../components/ItemSubscribe.jsx";
 import { useParams } from "react-router-dom";
+import { useUserStore } from "../store/useUserStore.js";
 
-const Subscription = () => {
-  const { Name } = useParams();
-  console.log("category:", Name);
+const Subscription = () => { 
+  const {user} = useUserStore();
   const products = [
     {
       _id: 1,
       name: "Milk",
       image:
         "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      price: 2200,
+      price: 70,
       quantity: 1,
-    },
-    {
-      _id: 2,
-      name: "Oil",
-      image:
-        "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      price: 2000,
-      quantity: 1,
-    },
+    }
   ];
   return (
     <div className="min-h-screen">
@@ -42,6 +34,7 @@ const Subscription = () => {
         >
           All the Shown Images are Authentic
         </motion.p>
+
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 justify-items-center"
           initial={{ opacity: 0, y: 20 }}

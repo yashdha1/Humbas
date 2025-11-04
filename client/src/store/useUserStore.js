@@ -59,6 +59,18 @@ export const useUserStore = create((set, get) => ({
             toast.error(error.response.data.error || "Error Occured Durinng LOGOUT.")
         }
     },
+    updateUser: async (userData) => {
+        set({loading: true});
+        try {
+            const res = await axios.put("/auth/profile", userData);
+            set({user: res.data.user, loading: false});
+            toast.success("Profile Updated Successfully");
+        } catch (error) {
+            set({loading: false});
+            console.log(error);
+            toast.error(error.response.data.error || "Error Occured During Profile Update.");
+        }
+    },
 }));
 
 // TODO : Implement the axios Interceptors to refresh the Access Tokens:  15mins 

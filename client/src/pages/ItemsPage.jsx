@@ -1,52 +1,20 @@
 import { motion } from "framer-motion";
 import Item from "../components/Item.jsx";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useProductStore } from "../store/useProductStore.js";
 
 const ItemsPage = () => {
-  const { Name } = useParams() ; 
-  console.log("category:", Name, useParams() );
-  const products = [
-    {
-      _id: 1,
-      name: "Organic Paneer",
-      image:
-        "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      price: 1501,
-      quantity: 1,
-    },
-    {
-      _id: 2,
-      name: "Organic Paneer",
-      image:
-        "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      price: 1501,
-      quantity: 1,
-    },
-    {
-      _id: 3,
-      name: "Organic Paneer",
-      image:
-        "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      price: 1501,
-      quantity: 1,
-    },
-    {
-      _id: 4,
-      name: "Organic Paneer blue",
-      image:
-        "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      price: 9832,
-      quantity: 1,
-    },
-    {
-      _id: 5,
-      name: "Organicasd asd Paneer blue",
-      image:
-        "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      price: 98327,
-      quantity: 1,
-    },
-  ];
+  const { products, fetchProductsByCategory } = useProductStore();
+   
+  const { id } = useParams() ; 
+  console.log("category:", id);
+  useEffect(() => {
+    fetchProductsByCategory(id);
+  }, [id]);
+  console.log("products in this category", products);
+
+
   return (
     <div className="min-h-screen">
       <div className="relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -56,7 +24,7 @@ const ItemsPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          Products in {Name}
+          Products in {id}
         </motion.h1>
         <motion.p
           className="text-center text-lg text-gray-500 mb-12"

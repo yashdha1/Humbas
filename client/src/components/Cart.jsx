@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CardHorizontal } from "./CardHorizontal";
 import {
   Box,
@@ -9,90 +9,44 @@ import {
   Button,
   Textarea,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { useUserStore } from "../store/useUserStore";
+import { useCartStore } from "../store/useCartStore";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      quantity: 2,
-      Product: {
-        name: "Organic Paneer",
-        price: 300,
-        image:
-          "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-        category: "dairy",
-        metric: "weight",
-      },
-    },
-    {
-      quantity: 1,
-      Product: {
-        name: "Brown Bread",
-        price: 50,
-        image:
-          "https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-        category: "bakery",
-        metric: "pieces",
-      },
-    },
-    {
-      quantity: 3,
-      Product: {
-        name: "Fresh Apples",
-        price: 120,
-        image:
-          "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-        category: "fruits",
-        metric: "weight",
-      },
-    },
-    {
-      quantity: 1,
-      Product: {
-        name: "Almond Milk",
-        price: 180,
-        image:
-          "https://images.unsplash.com/photo-1615485927853-5c443c72e3cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60",
-        category: "beverages",
-        metric: "liters",
-      },
-    },
-  ]);
+  
+  const { user } = useUserStore(); 
+  const { cart, getCartItems, updateQuantity } = useCartStore(); 
+  
+  useEffect(() => {
+      getCartItems({ cartItems: user.cartItems || [] });
+  }, []);
 
-  const handleIncrement = (index) => {
-    setCartItems((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+  const handleIncrement = (item, index) => {
+    updateQuantity(item, cart[index].quantity + 1);
   };
 
-  const handleDecrement = (index) => {
-    setCartItems((prev) =>
-      prev.map((item, i) =>
-        i === index && item.quantity > 0
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
+  const handleDecrement = (item, index) => {
+    if (cart[index].quantity > 0) {
+      updateQuantity(item, cart[index].quantity - 1);
+    }
   };
 
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.quantity * item.Product.price,
-    0
-  );
+  const total = cart.reduce((sum, item) => sum + item.quantity * item.price, 0);
+
 
   return (
     <div className="flex h-screen p-4 gap-6">
       {/* Left: Scrollable vertical stack */}
       <div className="flex-1 overflow-y-auto pr-4">
         <VStack spacing={4} align="stretch">
-          {cartItems.map((item, index) => (
+          {cart.map((item, index) => (
             <CardHorizontal
               data={item}
               quantity={item.quantity}
               key={index}
-              onIncrement={() => handleIncrement(index)}
-              onDecrement={() => handleDecrement(index)}
+              onIncrement={() => handleIncrement(item, index)}
+              onDecrement={() => handleDecrement(item, index)}
             />
           ))}
         </VStack>
@@ -104,10 +58,10 @@ const Cart = () => {
           Your Bill
         </Heading>
         <VStack align="stretch" spacing={2} fontSize="sm">
-          {cartItems.map((item, index) => (
+          {cart.map((item, index) => (
             <Box key={index} className="flex justify-between">
-              <Text>{item.Product.name}</Text>
-              <Text>₹{item.Product.price * item.quantity}</Text>
+              <Text>{item.name}</Text>
+              <Text>₹{item.price * item.quantity}</Text>
             </Box>
           ))}
         </VStack>
@@ -119,12 +73,12 @@ const Cart = () => {
         <Box className="flex justify-end mt-4">
           <Button colorScheme="teal">Checkout</Button>
         </Box>
-        
+
         <Divider my={3} />
         <Box>
-            <h6>Notice!</h6>
-            <p></p>
-            <p>Currently we are offering Cash On delivery Serivices only and </p>
+          <h6>Notice!</h6>
+          <p></p>
+          <p>Currently we are offering Cash On delivery Serivices only and </p>
         </Box>
       </div>
     </div>

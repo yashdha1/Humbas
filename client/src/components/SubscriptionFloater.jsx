@@ -16,12 +16,11 @@ const MotionBox = motion(Box);
 const SubscriptionFloater = ({
   isOpen,
   onClose,
-  product,
-  address,
-  phone,
-  setAddress,
+  product, 
+  phone, 
   setPhone,
   onConfirm,
+  monthlyCost, 
 }) => {
   if (!isOpen || !product) return null;
 
@@ -80,7 +79,7 @@ const SubscriptionFloater = ({
                 {product.name}
               </Text>
               <Text fontWeight="bold" fontSize="md" color="green.600">
-                ₹{(product.price - product.price * 0.1).toFixed(2)} / month
+                ₹{monthlyCost} / month
               </Text>
             </VStack>
 
@@ -104,7 +103,7 @@ const SubscriptionFloater = ({
           w="full"
           mb={2}
           onClick={onConfirm}
-          isDisabled={!address || !phone}
+          isDisabled={!phone}
         >
           Confirm & Pay
         </Button>

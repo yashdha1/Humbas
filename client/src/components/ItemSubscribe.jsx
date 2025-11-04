@@ -8,21 +8,28 @@ import {
   Card,
   CardBody,
   CardFooter,
+  Select,
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import SubscriptionFloater from "./SubscriptionFloater";
+import { useUserStore } from "../store/useUserStore.js";
+import { useNavigate } from "react-router-dom";
 
 const ItemSubscribe = ({ product }) => {
   const [isFloaterOpen, setFloaterOpen] = useState(false);
-  const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [quantityPerDay, setQuantityPerDay] = useState(1);
   const toast = useToast();
+  const {user} = useUserStore();
+  const navigate = useNavigate();
+
+  const monthlyCost = product.price * quantityPerDay * 30;
 
   const handleConfirm = () => {
     toast({
       title: "Subscription Confirmed",
-      description: `You've subscribed to ${product.name}`,
+      description: `You've subscribed to ${quantityPerDay}L of ${product.name}/day`,
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -37,7 +44,7 @@ const ItemSubscribe = ({ product }) => {
       <Card
         maxW="sm"
         overflow="hidden"
-        className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-e-2 w-full "
+        className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-e-2 w-full flex flex-col justify-between h-[500px]"
       >
         <Image
           src={product.image}
@@ -45,23 +52,48 @@ const ItemSubscribe = ({ product }) => {
           borderTopRadius="lg"
           className="object-cover h-48 w-full"
         />
-        <CardBody>
-          <Heading size="md">{product.name}</Heading>
-          <Text mt="2">₹{product.price - product.price * 0.1}/month</Text>
-          <Text mt="2">
-            {product.price * 0.1} cheaper than one-time purchase
+        <CardBody className="flex-1">
+          <Heading size="md">Cow {product.name}</Heading>
+          <Text mt="2" className="text-green-700 font-semibold">
+            ₹{product.price} / liter
           </Text>
-          <Text mt="2">Type: Daily subscription</Text>
+
+          <Box mt="4">
+            <Text fontSize="sm" mb="1">Quantity per day (liters):</Text>
+            <Select
+              value={quantityPerDay}
+              onChange={(e) => setQuantityPerDay(parseFloat(e.target.value))}
+              size="sm"
+              bg="white"
+            >
+              <option value={0.5}>0.5</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+            </Select>
+          </Box>
+
+          <Box mt="4">
+            <Text fontSize="sm">Estimated Monthly Cost:</Text>
+            <Text fontWeight="bold" color="green.700" fontSize="lg">
+              ₹{monthlyCost}
+            </Text>
+          </Box>
         </CardBody>
         <CardFooter>
-          <Stack direction="row" spacing="4">
-            <Button
+          <Stack direction="row" spacing="4" className="w-full">
+            {user && <Button
               colorScheme="red"
               className="w-full"
               onClick={() => setFloaterOpen(true)}
             >
               Subscribe!
-            </Button>
+            </Button>}
+            {!user && (
+              <Button colorScheme="blue" className="w-full" onClick={() => navigate('/login')}>
+                Login to Subscribe
+              </Button>
+            )}
           </Stack>
         </CardFooter>
       </Card>
@@ -84,11 +116,11 @@ const ItemSubscribe = ({ product }) => {
             isOpen={isFloaterOpen}
             onClose={() => setFloaterOpen(false)}
             product={product}
-            address={address}
             phone={phone}
-            setAddress={setAddress}
             setPhone={setPhone}
             onConfirm={handleConfirm}
+            quantityPerDay={quantityPerDay}
+            monthlyCost={monthlyCost}
           />
         </Box>
       )}
